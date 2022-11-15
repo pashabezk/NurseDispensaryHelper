@@ -1,0 +1,34 @@
+html, body {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+
+main {
+	flex-grow: 1;
+	width: 100%;
+	max-width: 400px;
+	margin-inline: auto;
+	margin-block: 15px;
+}
+
+header, footer {
+	flex-grow: 0;
+}
+
+header > h1 {
+	margin: 15px;
+	font-weight: bold;
+}
+
+footer a {
+	cursor: pointer;
+	font-weight: bolder;
+	color: indigo;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+}

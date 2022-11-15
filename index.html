@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Диспансеризация</title>
+	<link rel="shortcut icon" href="icon.svg">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link href="http://cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css"/>
+	<script src="http://cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+	<link href="styles.css" rel="stylesheet" type="text/css"/>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<header class="mui-appbar center">
+	<h1>Диспансеризация</h1>
+</header>
+<main>
+	<div class="mui-form mui-panel mui-container" id="form" oninput="onFormChange()">
+		<legend>Данные пациента</legend>
+		<div class="mui-textfield">
+			<label for="age">Возраст: </label>
+			<input type="number" id="age"/>
+		</div>
+		<div class="mui-radio">
+			<p>Пол:</p>
+			<input type="radio" value="man" name="gender" id="gender_man" checked/>
+			<label for="gender_man"> мужской</label><br/>
+			<input type="radio" value="woman" name="gender" id="gender_woman"/>
+			<label for="gender_woman"> женский</label>
+		</div>
+	</div>
+	<div class="mui-panel mui-container" id="result">
+		Введите данные выше
+	</div>
+</main>
+<footer class="center">
+	<p>Created by <a href="https://pashabezk.github.io/MainPage/" target="_blank">pashabezk</a></p>
+</footer>
+<script>
+
+	let outputDataModel = {
+		"Холестерин": true,
+		"Глюкоза": true,
+		"Клинический анализ крови": false,
+		"ФЛГ": false,
+		"ЭКГ": false,
+		"Кал на скрытую кровь": false,
+		"ПСА": false,
+		"Гинеколог": false,
+		"Мазок на цитологию": false,
+		"Маммография": false,
+		"ФГДС": false
+	};
+
+	// подцепляем объекты на основе которых будет производиться анализ
+	let ageInput = document.getElementById("age");
+	let genderInputMale = document.getElementById("gender_man");
+	let genderInputFemale = document.getElementById("gender_woman");
+	let resultContainer = document.getElementById("result");
+
+	function onFormChange() {
+
+		let outputData = {
+			...outputDataModel
+		};
+
+		let age = Number(ageInput.value);
+		if (age) {
+			const male = "мужской";
+			const female = "женский";
+			let gender = genderInputMale.checked ? male : female;
+
+			if (age >= 40) {
+				outputData["Клинический анализ крови"] = true;
+			}
+
+			if ((age >= 18) && ((age - 18) % 2 === 0)) {
+				outputData["ФЛГ"] = true;
+			}
+
+			if (age >= 35) {
+				outputData["ЭКГ"] = true;
+			}
+
+			if ((age >= 40) && (age <= 64) && (age % 2 === 0)) {
+				outputData["Кал на скрытую кровь"] = true;
+			} else if ((age >= 65) && (age <= 75)) {
+				outputData["Кал на скрытую кровь"] = true;
+			}
+
+			if ((gender === male) && ((age === 45) || (age === 50) || (age === 55) || (age === 60) || (age === 64))) {
+				outputData["ПСА"] = true;
+			}
+
+			if (age === 45) {
+				outputData["ФГДС"] = true;
+			}
+
+			if (gender === female) {
+				if (age >= 18) {
+					outputData["Гинеколог"] = true;
+				}
+
+				if (((age >= 18) && (age <= 64) && ((age - 18) % 3 === 0)) || (age == 64)) {
+					outputData["Мазок на цитологию"] = true;
+				}
+
+				if (((age >= 40) && (age <= 75) && (age % 2 === 0)) || (age == 75)) {
+					outputData["Маммография"] = true;
+				}
+			}
+
+			// console.log(outputData);
+
+			// требуются следующие анализы
+			let result = document.createElement("div");
+			let child = document.createElement("p");
+			child.innerText = "Требуются следующие анализы:";
+			child.classList.add("mui--text-dark-secondary");
+			result.appendChild(child);
+			for (let key in outputData) {
+				if(outputData[key]) {
+					let child = document.createElement("p");
+					child.innerText = key;
+					result.appendChild(child);
+				}
+			}
+			resultContainer.replaceChildren(result);
+		}
+	}
+</script>
+</body>
+</html>
