@@ -32,3 +32,7 @@ footer a {
 	display: flex;
 	justify-content: center;
 }
+
+.m15 {
+	margin-inline: 15px;
+}
