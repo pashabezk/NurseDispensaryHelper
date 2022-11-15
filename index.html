@@ -19,14 +19,18 @@
 		<legend>Данные пациента</legend>
 		<div class="mui-textfield">
 			<label for="age">Возраст: </label>
-			<input type="number" id="age"/>
+			<input type="number" id="age" required/>
 		</div>
 		<div class="mui-radio">
-			<p>Пол:</p>
-			<input type="radio" value="man" name="gender" id="gender_man" checked/>
-			<label for="gender_man"> мужской</label><br/>
-			<input type="radio" value="woman" name="gender" id="gender_woman"/>
-			<label for="gender_woman"> женский</label>
+			Пол:<br/>
+			<label for="gender_man">
+				<input type="radio" value="man" name="gender" id="gender_man" checked/>
+				мужской
+			</label><br/>
+			<label for="gender_woman">
+				<input type="radio" value="woman" name="gender" id="gender_woman"/>
+				женский
+			</label>
 		</div>
 	</div>
 	<div class="mui-panel mui-container" id="result">
@@ -119,7 +123,7 @@
 			child.classList.add("mui--text-dark-secondary");
 			result.appendChild(child);
 			for (let key in outputData) {
-				if(outputData[key]) {
+				if (outputData[key]) {
 					let child = document.createElement("p");
 					child.innerText = key;
 					result.appendChild(child);
